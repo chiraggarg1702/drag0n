@@ -1,0 +1,48 @@
+class snode{
+    int data;
+    snode left, right;
+    
+    public snode(int data){
+        this.data=data;
+        left=right=null;
+    }
+}
+public class MaxTreeSum {
+    private snode root;
+    
+    public static int findMaxUtil(snode root, int res){
+        if(root==null){return 0;}
+         int l = findMaxUtil(root.left,res);
+         int r = findMaxUtil(root.right, res);
+         
+         int max_single=Math.max(Math.max(l, r)+root.data, root.data);
+         
+         int max_top = Math.max(max_single, l+r+root.data);
+         
+         res=Math.max(max_top, res);
+         
+         return res;
+    }
+    public static int findMaxSum(snode root){
+        int res = Integer.MIN_VALUE;
+        
+        int rs = findMaxUtil(root,res);
+        return rs;
+    }
+    public static void main(String[] args) {
+    
+        MaxTreeSum tree=new MaxTreeSum();
+        tree.root= new snode(10);
+        tree.root.left = new snode(2);
+        tree.root.right= new snode(10);
+        tree.root.left.left= new snode(20);
+        tree.root.left.right= new snode(1);
+//        tree.root.right.left= new snode(1);
+        tree.root.right.right= new snode(-25);
+        tree.root.right.right.left= new snode(3);
+        tree.root.right.right.right= new snode(4);
+        
+        System.out.println(findMaxSum(tree.root));
+        
+    }
+}
