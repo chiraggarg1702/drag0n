@@ -1,0 +1,70 @@
+class Graph{
+    int v;
+    LinkedList<Integer> adj[];
+    
+    public Graph(int v){
+        this.v = v;
+        adj = new LinkedList[v];
+        for(int i =0; i<v;i++){
+            adj[i] = new LinkedList();
+        }
+    }
+    
+    void addEdge(int v, int w){
+        adj[v].add(w);
+    }
+}
+public class topologicalSort {
+    
+    Graph g;
+    
+    void topSort(){
+        int v = g.v;
+        Stack st = new Stack();
+        boolean[] visited = new boolean[v];
+        
+        for(int i =0;i<v;i++){
+            visited[i] = false;
+        }
+        
+        for(int i =0;i<v;i++){
+            if (visited[i] == false){
+                topSortUtil(g,i,visited,st);
+            }
+        }
+        
+        while(st.empty() == false){
+            System.out.println(st.pop());
+        }
+    }
+    
+    void topSortUtil(Graph graph, int v, boolean[] visited, Stack st){
+         visited[v] = true;
+         Integer i;
+         Iterator<Integer> it = graph.adj[v].iterator();
+         
+         while(it.hasNext()){
+             i = it.next();
+             if(visited[i]==false){
+                 topSortUtil(graph, i, visited, st);
+             }
+         }
+         
+         st.push(new Integer(v));
+    }
+    
+    public static void main(String[] args) {
+        topologicalSort tp = new topologicalSort();
+        tp.g = new Graph(6);
+        tp.g.addEdge(5, 2);
+        tp.g.addEdge(5, 0);
+        tp.g.addEdge(4, 0);
+        tp.g.addEdge(4, 1);
+        tp.g.addEdge(2, 3);
+        tp.g.addEdge(3, 1);
+ 
+        System.out.println("Following is a Topological " +
+                           "sort of the given graph");
+        tp.topSort();
+    }
+}
